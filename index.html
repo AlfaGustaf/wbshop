@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WB24 - Помощь селлерам на маркетплейсах</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vtb-dark-blue: #1A2C6E;
+            --accent-purple: #7864C3;
+            --soft-gray: #f8f9fa;
+            --light-blue: #e6f0ff;
+            --text-dark: #333;
+            --text-light: #555;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7ff 0%, #f0f4ff 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Шапка */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--vtb-dark-blue);
+        }
+
+        .logo span {
+            color: var(--accent-purple);
+        }
+
+        /* Основные секции */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--vtb-dark-blue);
+            font-size: 2.2rem;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .section-title:after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent-purple);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Блок "Кто мы" */
+        .about-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.15rem;
+            color: var(--text-dark);
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .about-content strong {
+            font-weight: 700;
+        }
+
+        /* Услуги */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+            transition: var(--transition);
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--vtb-dark-blue);
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            color: var(--vtb-dark-blue);
+            margin-bottom: 15px;
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .service-card p {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        /* Кейсы - полностью переработанная карусель */
+        .cases-section {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 60px 0;
+        }
+
+        .carousel-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            background: #f0f4ff;
+        }
+
+        .carousel {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            padding-bottom: 60%; /* Соотношение 5:3 */
+        }
+
+        .carousel-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.7s ease-in-out;
+            z-index: 1;
+        }
+
+        .carousel-item.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            padding: 20px;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(26, 44, 110, 0.95), transparent);
+            color: white;
+            padding: 20px 15px 15px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 1rem;
+            max-height: 50%;
+            overflow: hidden;
+        }
+
+        /* Контейнер для индикаторов */
+        .progress-container {
+            display: flex;
+            justify-content: center;
+            padding: 25px 0;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 0 0 15px 15px;
+        }
+
+        .progress-indicator {
+            display: flex;
+            gap: 15px;
+            padding: 8px 20px;
+            background: rgba(26, 44, 110, 0.1);
+            border-radius: 30px;
+        }
+
+        .progress-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgba(26, 44, 110, 0.3);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .progress-dot.active {
+            background: var(--vtb-dark-blue);
+            transform: scale(1.2);
+        }
+
+        /* FAQ */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .faq-question {
+            padding: 20px 60px 20px 25px;
+            cursor: pointer;
+            position: relative;
+            font-weight: 700;
+            color: var(--vtb-dark-blue);
+            font-size: 1.15rem;
+            user-select: none;
+        }
+
+        .faq-question:after {
+            content: "+";
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.8rem;
+            color: var(--accent-purple);
+            transition: var(--transition);
+        }
+
+        .faq-item.active .faq-question:after {
+            content: "−";
+            transform: translateY(-50%) rotate(0deg);
+        }
+
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+            color: var(--text-dark);
+            font-weight: 500;
+            line-height: 1.7;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 25px 25px;
+            max-height: 1000px;
+        }
+
+        /* Контакты */
+        .contact-box {
+            text-align: center;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-box p {
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+
+        .telegram-link {
+            display: inline-block;
+            background: #0088cc;
+            color: white !important;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: var(--transition);
+            font-size: 1.15rem;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .telegram-link:hover {
+            background: #006699;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .telegram-link i {
+            margin-right: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            margin-top: 40px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 0;
+            }
+            
+            .about-content,
+            .contact-box {
+                padding: 30px 20px;
+            }
+            
+            .service-card {
+                padding: 25px 20px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+                margin-bottom: 40px;
+            }
+            
+            .section-title:after {
+                width: 60px;
+            }
+            
+            .carousel-caption {
+                padding: 15px 10px 10px;
+                font-size: 0.95rem;
+            }
+            
+            .progress-container {
+                padding: 20px 0;
+            }
+            
+            .progress-indicator {
+                gap: 12px;
+            }
+            
+            .progress-dot {
+                width: 14px;
+                height: 14px;
+            }
+            
+            .faq-question {
+                padding-right: 50px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+                margin-bottom: 30px;
+            }
+            
+            .service-card h3 {
+                font-size: 1.2rem;
+            }
+            
+            .carousel-caption {
+                font-size: 0.85rem;
+                padding: 12px 8px 8px;
+            }
+            
+            .carousel {
+                padding-bottom: 75%; /* Более квадратное соотношение для мобилок */
+            }
+
+            .progress-container {
+                padding: 15px 0;
+            }
+            
+            .progress-indicator {
+                gap: 10px;
+                padding: 6px 15px;
+            }
+            
+            .progress-dot {
+                width: 12px;
+                height: 12px;
+            }
+
+            .faq-question {
+                padding: 15px 45px 15px 15px;
+                font-size: 1rem;
+            }
+
+            .faq-question:after {
+                right: 15px;
+                font-size: 1.5rem;
+            }
+
+            .telegram-link {
+                font-size: 1rem;
+                padding: 12px 25px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .about-content {
+                padding: 25px 15px;
+                font-size: 1rem;
+            }
+            
+            .carousel {
+                padding-bottom: 85%; /* Почти квадрат для маленьких экранов */
+            }
+            
+            .progress-indicator {
+                gap: 8px;
+                padding: 5px 12px;
+            }
+            
+            .progress-dot {
+                width: 10px;
+                height: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header>
+        <div class="container">
+            <div class="logo">WB<span>24</span></div>
+        </div>
+    </header>
+
+    <!-- Кто мы -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">Кто мы и чем занимаемся</h2>
+            <div class="about-content">
+                <p><strong>Мы</strong> — частная компания, которая помогает начинающим и продвинутым селлерам повысить эффективность бизнеса на маркетплейсах.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Услуги -->
+    <section id="services" style="background: rgba(230, 240, 255, 0.3);">
+        <div class="container">
+            <h2 class="section-title">Наши услуги</h2>
+            <div class="services">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-store"></i></div>
+                    <h3>Выход на маркетплейсы</h3>
+                    <p>Поможем с регистрацией и запуском, подберем товар и сделаем продающую карточку</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-shipping-fast"></i></div>
+                    <h3>Доставка из Китая</h3>
+                    <p>Оптимальные логистические решения для вашего товара</p>
+                </div>
+                <div class="service-card">
+                    <!-- ИКОНКА РУКОПОЖАТИЯ (ЗАМЕНА) -->
+                    <div class="service-icon"><i class="fas fa-handshake"></i></div>
+                    <h3>Ведение кабинетов</h3>
+                    <p>Полное сопровождение ваших магазинов на Маркетплейсах</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-video"></i></div>
+                    <h3>Заочные консультации</h3>
+                    <p>Детальное обсуждение вашего бизнеса в формате онлайн встреч</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Доступ к сервисам аналитики</h3>
+                    <p>Ключевые инструменты для анализа рынка Маркетплейсов</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Обучение системе выкупов</h3>
+                    <p>Прямые схемы без посредников</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Кейсы -->
+    <section id="cases" class="cases-section">
+        <div class="container">
+            <h2 class="section-title">Наши кейсы</h2>
+            <div class="carousel-container">
+                <div class="carousel">
+                    <div class="carousel-inner">
+                        <!-- Каждый слайд теперь в своем отдельном контейнере -->
+                        <div class="carousel-item active">
+                            <img src="1Case.png" alt="Увеличение продаж спустя месяц выкупов + Оптимизированные Рекламные Кампании">
+                            <div class="carousel-caption">Увеличение продаж спустя месяц выкупов + Оптимизированные Рекламные Кампании</div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="2Case.png" alt="Оптимизация РК">
+                            <div class="carousel-caption">Оптимизация РК</div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="3Case.png" alt="Запуск 3 новых товаров на WB">
+                            <div class="carousel-caption">Запуск 3 новых товаров на WB</div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="4Case.png" alt="Результат с ведением кабинета">
+                            <div class="carousel-caption">Результат с ведением кабинета</div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="5Case.png" alt="Спустя 6 заочных встреч и внедрения системы выкупов">
+                            <div class="carousel-caption">Спустя 6 заочных встреч и внедрения системы выкупов</div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="6Case.png" alt="Более качественный товар от нашего поставщика позволил сократить издержки и вырваться в топ на WB">
+                            <div class="carousel-caption">Более качественный товар от нашего поставщика позволил сократить издержки и вырваться в топ на WB</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Контейнер для индикаторов -->
+                <div class="progress-container">
+                    <div class="progress-indicator"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+        <div class="container">
+            <h2 class="section-title">Частые вопросы</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">Способы оплаты доступа к сервису</div>
+                    <div class="faq-answer">
+                        <p>Выдаем реквизиты для оплаты. После оплаты мы создаем под вас аккаунты с полным доступом к платформам или необходимым для вас услугам</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">У вас есть инструкции?</div>
+                    <div class="faq-answer">
+                        <p>Каждого клиента мы сопровождаем на всех этапах. Во всём поможем и расскажем.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Какие гарантии?</div>
+                    <div class="faq-answer">
+                        <p>Мы предоставляем полные гарантии на наши услуги и сервис. Весь штат состоит из опытных селлеров и программистов, мы сможем оперативно решить любой ваш вопрос.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section id="contact" style="background: rgba(230, 240, 255, 0.3);">
+        <div class="container">
+            <h2 class="section-title">Как с нами связаться?</h2>
+            <div class="contact-box">
+                <p>Напишите нам в Telegram для консультации и подключения услуг</p>
+                <p>Работаем без выходных!</p>
+                <a href="https://t.me/wb_ozon_marketV" class="telegram-link" target="_blank">
+                    <i class="fab fa-telegram-plane"></i> Написать в Telegram
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <p>© 2025 WB24. Все права защищены</p>
+        </div>
+    </footer>
+
+    <script>
+        // Работаем с FAQ
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', (e) => {
+                const item = question.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // Закрываем все элементы FAQ
+                document.querySelectorAll('.faq-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                // Открываем текущий, если он был закрыт
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Переработанная карусель с абсолютным позиционированием
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const progressIndicator = document.querySelector('.progress-indicator');
+        
+        // Создаем индикаторы прогресса
+        carouselItems.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('progress-dot');
+            if (index === 0) dot.classList.add('active');
+            progressIndicator.appendChild(dot);
+        });
+        
+        const dots = document.querySelectorAll('.progress-dot');
+        let currentIndex = 0;
+        const totalItems = carouselItems.length;
+        
+        // Функция обновления карусели
+        function updateCarousel() {
+            // Скрываем все слайды
+            carouselItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Показываем текущий слайд
+            carouselItems[currentIndex].classList.add('active');
+            
+            // Обновляем индикаторы
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        
+        // Автоматическое переключение каждые 5 секунд
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % totalItems;
+            updateCarousel();
+        }, 5000);
+        
+        // Инициализация
+        updateCarousel();
+    </script>
+</body>
+</html>
